@@ -31,11 +31,52 @@ package bonus
 //
 //Caso não seja possível calcular a média, retorne um erro.
 
+import (
+	"errors"
+	"fmt"
+	"math"
+)
+
 type Shirt struct {
 	Size  string
 	Price float64
 }
 
 func CalculateAveragePrice(shirts []Shirt) (max float64, min float64, err error) {
-	return 0, 0, nil
+	if len(shirts) == 0 {
+		return 0, 0, errors.New("a lista de camisas está vazia")
+	}
+
+	max = shirts[0].Price
+	min = shirts[0].Price
+
+	for _, shirt := range shirts {
+		if shirt.Price > max {
+			max = shirt.Price
+		}
+
+		if shirt.Price < min {
+			min = shirt.Price
+		}
+	}
+
+	return max, min, nil
+}
+
+func main() {
+	camisas := []Shirt{
+		{Size: "M", Price: 25.0},
+		{Size: "XXL", Price: 30.0},
+		{Size: "S", Price: 20.0},
+		{Size: "XXXXXXXS", Price: 15.0},
+	}
+	
+	maxPrice, minPrice, err := CalculateAveragePrice(camisas)
+
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		average := (maxPrice + minPrice) / 2
+		fmt.Printf("Média de preços: %.2f\n", average)
+	}
 }

@@ -15,11 +15,47 @@ package q2
 //
 //Cada pessoa só pode fazer parte de uma equipe.
 
+import "fmt"
+
 type Participant struct {
 	Name string
 	Role string
 }
 
 func CalculateTeams(participants []Participant) int {
-	return 0
+	numProgrammers := 0
+	numMathematicians := 0
+
+	teamsFormed := 0
+
+	for _, participant := range participants {
+		switch participant.Role {
+		case "Programador":
+			numProgrammers++
+		case "Matemático":
+			numMathematicians++
+		}
+	}
+
+	for numProgrammers >= 1 && numMathematicians >= 1 {
+		numProgrammers -= 1
+		numMathematicians -= 1
+		teamsFormed++
+	}
+
+	return teamsFormed
+}
+
+func main() {
+	participantes := []Participant{
+		{Name: "Alice", Role: "Programador"},
+		{Name: "Bob", Role: "Matemático"},
+		{Name: "Charlie", Role: "Matemático"},
+		{Name: "David", Role: "Programador"},
+		{Name: "Eva", Role: "Programador"},
+	}
+
+	numEquipes := CalculateTeams(participantes)
+
+	fmt.Printf("Número máximo de equipes formadas: %d\n", numEquipes)
 }
